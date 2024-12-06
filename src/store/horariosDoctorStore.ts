@@ -12,52 +12,58 @@ interface HorariosStore {
 }
 
 const useHorariosStore = create<HorariosStore>((set) => ({
-    horarios: [],
-    loading: false,
-    error: null,
-  
-    obtenerHorariosPorDoctor: async (doctorId: string) => {
-      set({ loading: true, error: null });
-      try {
-        const response = await api.get(`/horarios/doctor/${doctorId}`);
-        set({ horarios: response.data, loading: false });
-      } catch (error) {
-        set({ error: 'Error al obtener los horarios', loading: false });
-      }
-    },
-  
-    crearHorario: async (doctorId: string, inicio: string, fin: string) => {
-      set({ loading: true, error: null });
-      try {
-        await api.post('/horarios/crear', {
-          doctorId,
-          inicio,
-          fin
-        });
+  horarios: [],
+  loading: false,
+  error: null,
+
+  obtenerHorariosPorDoctor: async (doctorId: string) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await api.get(`/horarios/doctor/${doctorId}`);
+      set({ horarios: response.data, loading: false });
+    } catch (error) {
+      console.error('Error al obtener horarios:', error);
+      set({ error: 'Error al obtener los horarios', loading: false });
+    }
+  },
+
+  crearHorario: async (doctorId: string, inicio: string, fin: string) => {
+    set({ loading: true, error: null });
+    try {
+      // Ajustamos para enviar los parámetros en la URL
+      const response = await api.post(`/horarios/crear?doctorId=${doctorId}&inicio=${inicio}&fin=${fin}`);
+      if (response.status === 200) {
         return true;
-      } catch (error) {
-        set({ error: 'Error al crear el horario', loading: false });
-        return false;
-      } finally {
-        set({ loading: false });
       }
-    },
-  
-    eliminarHorario: async (horarioId: string) => {
-      set({ loading: true, error: null });
-      try {
-        await api.delete(`/horarios/${horarioId}`);
+      return false;
+    } catch (error) {
+      console.error('Error al crear horario:', error);
+      set({ error: 'Error al crear el horario', loading: false });
+      return false;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  eliminarHorario: async (horarioId: string) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await api.delete(`/horarios/${horarioId}`);
+      if (response.status === 200) {
         set((state) => ({
           horarios: state.horarios.filter(h => h.id !== horarioId)
         }));
         return true;
-      } catch (error) {
-        set({ error: 'Error al eliminar el horario', loading: false });
-        return false;
-      } finally {
-        set({ loading: false });
       }
-    },
-  }));
+      return false;
+    } catch (error) {
+      console.error('Error al eliminar horario:', error);
+      set({ error: 'Error al eliminar el horario', loading: false });
+      return false;
+    } finally {
+      set({ loading: false });
+    }
+  },
+}));
   
   export default useHorariosStore;

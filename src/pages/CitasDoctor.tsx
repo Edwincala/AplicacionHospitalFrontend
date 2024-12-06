@@ -7,8 +7,8 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 dayjs.extend(isSameOrBefore);
 
-const CitasDoctor:React.FC = () => {
-    const [tabValue, setTabValue] = useState(0);
+const CitasDoctor: React.FC = () => {
+  const [tabValue, setTabValue] = useState(0);
   const [selectedCita, setSelectedCita] = useState<CitaDoctor | null>(null);
   const [observaciones, setObservaciones] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
@@ -22,6 +22,7 @@ const CitasDoctor:React.FC = () => {
     }
   }, [user]);
 
+  // Si el usuario no es un doctor, mostramos un mensaje de error
   if (!user || user.role !== 'DOCTOR') {
     return (
       <Box className="p-4">
@@ -48,16 +49,16 @@ const CitasDoctor:React.FC = () => {
   };
 
   const now = dayjs();
-  
-  const citasHoy = citasDoctor.filter(cita => 
+
+  const citasHoy = citasDoctor.filter(cita =>
     dayjs(cita.fechaHora).isSame(now, 'day') && cita.estado !== 'CANCELADA'
   );
-  
-  const citasFuturas = citasDoctor.filter(cita => 
+
+  const citasFuturas = citasDoctor.filter(cita =>
     dayjs(cita.fechaHora).isAfter(now, 'day') && cita.estado !== 'CANCELADA'
   );
-  
-  const citasPasadas = citasDoctor.filter(cita => 
+
+  const citasPasadas = citasDoctor.filter(cita =>
     dayjs(cita.fechaHora).isBefore(now, 'day') || cita.estado === 'COMPLETADA'
   );
 

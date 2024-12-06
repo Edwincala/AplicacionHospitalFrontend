@@ -22,13 +22,13 @@ export const AppRouter: React.FC = () => {
         <BrowserRouter>
             <Routes>
 
-                <Route path="/login" element={ 
+                <Route path="/login" element={
                     user ? <Navigate to="/dashboard" /> : <Login />
                 } />
 
-                <Route path="/" element={ 
-                    user ? <Navigate to="/dashboard" />: <Home />
-                    } />
+                <Route path="/" element={
+                    user ? <Navigate to="/dashboard" /> : <Home />
+                } />
 
                 <Route path="/access-denied" element={<AccessDenied />} />
 
@@ -54,7 +54,7 @@ export const AppRouter: React.FC = () => {
                     }
                 />
 
-<Route
+                <Route
                     path="/medicamentos"
                     element={
                         <PrivateRoutes>
@@ -68,13 +68,13 @@ export const AppRouter: React.FC = () => {
                     }
                 />
 
-<Route
+                <Route
                     path="/doctor/horarios"
                     element={
                         <PrivateRoutes>
                             <RoleRoute allowedRoles={["DOCTOR"]}>
                                 <Layout>
-                                    <HorariosDoctor doctorId={user?.username || ''} />
+                                    <HorariosDoctor username="doctor" />
                                 </Layout>
                             </RoleRoute>
                         </PrivateRoutes>

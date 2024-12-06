@@ -5,7 +5,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import PeopleIcon from '@mui/icons-material/People';
-
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
 
 type UserRole = "ADMINISTRATIVO" | "DOCTOR" | "PACIENTE";
@@ -36,6 +36,18 @@ export const menuItems: MenuItem[] = [
         icon: <MedicationIcon />, 
         path: "/medicamentos",
         roles: ["ADMINISTRATIVO"]
+    },
+    {
+        label: "Horarios",
+        icon: <ScheduleIcon />, 
+        path: "/doctor/horarios",
+        roles: ["DOCTOR"]
+    },
+    {
+        label: "Citas",
+        icon: <EditCalendarIcon />, 
+        path: "/doctor/citas",
+        roles: ["DOCTOR"]
     },
     {
         label: "Historias Clinicas",
